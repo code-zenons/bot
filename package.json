@@ -1,0 +1,19 @@
+{
+  "name": "smart-bot",
+  "version": "1.0.0",
+  "description": "A smart automated bot that helps users by replying to messages, answering questions, and performing tasks automatically",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "test": "node test/bot.test.js"
+  },
+  "keywords": [
+    "bot",
+    "ai",
+    "automation",
+    "assistant",
+    "chat"
+  ],
+  "author": "zenons",
+  "license": "MIT"
+}
