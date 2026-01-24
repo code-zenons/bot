@@ -231,27 +231,32 @@ class SmartBot {
    * Safe calculation of simple math expressions
    */
   safeCalculate(expression) {
-    // Only allow digits, operators, spaces, and parentheses
-    if (!/^[\d\s\+\-\*\/\(\)\.]+$/.test(expression)) {
+    // Only allow digits, operators, and spaces - no parentheses or dots for safety
+    if (!/^[\d\s\+\-\*\/]+$/.test(expression)) {
       throw new Error('Invalid expression');
     }
     
     // Parse and calculate manually for safety
     const parts = expression.split(/(\+|\-|\*|\/)/).map(p => p.trim()).filter(p => p);
-    if (parts.length === 3) {
-      const num1 = parseFloat(parts[0]);
-      const operator = parts[1];
-      const num2 = parseFloat(parts[2]);
-      
-      switch (operator) {
-        case '+': return num1 + num2;
-        case '-': return num1 - num2;
-        case '*': return num1 * num2;
-        case '/': return num2 !== 0 ? num1 / num2 : 'Cannot divide by zero';
-        default: throw new Error('Invalid operator');
-      }
+    if (parts.length !== 3) {
+      throw new Error('Invalid expression format - expected format: number operator number');
     }
-    throw new Error('Invalid expression format');
+    
+    const num1 = parseFloat(parts[0]);
+    const operator = parts[1];
+    const num2 = parseFloat(parts[2]);
+    
+    if (isNaN(num1) || isNaN(num2)) {
+      throw new Error('Invalid numbers in expression');
+    }
+    
+    switch (operator) {
+      case '+': return num1 + num2;
+      case '-': return num1 - num2;
+      case '*': return num1 * num2;
+      case '/': return num2 !== 0 ? num1 / num2 : 'Cannot divide by zero';
+      default: throw new Error('Invalid operator');
+    }
   }
 
   /**

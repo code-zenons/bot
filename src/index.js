@@ -8,6 +8,7 @@
  */
 
 const readline = require('readline');
+const crypto = require('crypto');
 const SmartBot = require('./bot');
 
 // Initialize the bot
@@ -36,8 +37,8 @@ console.log('    /mode    - Change bot mode');
 console.log('    /quit    - Exit the bot');
 console.log('==========================================\n');
 
-// Generate a unique user ID for this session
-const userId = `user_${Date.now()}`;
+// Generate a unique user ID for this session using crypto
+const userId = crypto.randomUUID();
 
 /**
  * Handle special commands
