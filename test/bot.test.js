@@ -254,6 +254,38 @@ test('Bot handles search requests', () => {
   expect(result.response).toContain('search');
 });
 
+// Test: Reel request handling
+test('Bot handles reel requests', () => {
+  const bot = new SmartBot();
+  bot.start();
+  const result = bot.processMessage('user1', 'send me a reel');
+  expect(result.response).toContain('🎬');
+});
+
+test('Bot handles funny reel requests', () => {
+  const bot = new SmartBot();
+  bot.start();
+  const result = bot.processMessage('user1', 'show me a funny reel');
+  expect(result.response).toContain('funny');
+  expect(result.response).toContain('🎬');
+});
+
+test('Bot handles educational reel requests', () => {
+  const bot = new SmartBot();
+  bot.start();
+  const result = bot.processMessage('user1', 'send educational reel');
+  expect(result.response).toContain('educational');
+  expect(result.response).toContain('🎬');
+});
+
+test('Bot handles motivational reel requests', () => {
+  const bot = new SmartBot();
+  bot.start();
+  const result = bot.processMessage('user1', 'I want a motivational video');
+  expect(result.response).toContain('motivational');
+  expect(result.response).toContain('🎬');
+});
+
 // Test: Unknown input handling
 test('Bot handles unknown input gracefully', () => {
   const bot = new SmartBot();
