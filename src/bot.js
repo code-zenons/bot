@@ -20,7 +20,8 @@ class SmartBot {
       farewells: ['bye', 'goodbye', 'see you', 'later', 'farewell'],
       help: ['help', 'assist', 'support', 'how to', 'what can you do'],
       thanks: ['thank', 'thanks', 'appreciate', 'grateful'],
-      questions: ['what', 'why', 'how', 'when', 'where', 'who', 'which', 'can you', 'could you']
+      questions: ['what', 'why', 'how', 'when', 'where', 'who', 'which', 'can you', 'could you'],
+      reels: ['reel', 'reels', 'video', 'short video', 'send reel']
     };
     
     // Pre-defined responses for common queries
@@ -44,6 +45,11 @@ class SmartBot {
         "No problem! Let me know if you need anything else.",
         "Glad I could assist! Is there anything more I can help with?"
       ],
+      reels: [
+        "🎬 Here's a reel for you! [In a full implementation, this would send an actual video/reel link]",
+        "🎬 Check out this reel! [Reel content would be sent here]",
+        "🎬 I've got a great reel for you! [Video content would appear here]"
+      ],
       unknown: [
         "I'm not sure I understand. Could you rephrase that?",
         "I'd like to help! Can you provide more details?",
@@ -57,7 +63,8 @@ class SmartBot {
       calculate: /calculate|compute|what is \d+/i,
       search: /search|find|look up|lookup/i,
       time: /time|date|what day|current time/i,
-      weather: /weather|temperature|forecast/i
+      weather: /weather|temperature|forecast/i,
+      reel: /reel|reels|send reel|show reel|video/i
     };
   }
 
@@ -224,7 +231,33 @@ class SmartBot {
       return "In a full implementation, I would fetch the current weather for you. Please integrate a weather API for this feature!";
     }
 
+    // Reel request
+    if (this.taskPatterns.reel.test(input)) {
+      return this.handleReelRequest(input);
+    }
+
     return null;
+  }
+
+  /**
+   * Handle reel requests with category detection
+   */
+  handleReelRequest(input) {
+    // Check for reel categories
+    if (input.includes('funny') || input.includes('comedy') || input.includes('humor')) {
+      return "🎬 Here's a funny reel for you! [In a full implementation, this would send an actual funny video/reel link]";
+    }
+    
+    if (input.includes('educational') || input.includes('learning') || input.includes('tutorial')) {
+      return "🎬 Here's an educational reel for you! [In a full implementation, this would send an actual educational video/reel link]";
+    }
+    
+    if (input.includes('motivational') || input.includes('inspiring') || input.includes('motivation')) {
+      return "🎬 Here's a motivational reel to inspire you! [In a full implementation, this would send an actual motivational video/reel link]";
+    }
+    
+    // Default reel response
+    return this.getRandomResponse('reels');
   }
 
   /**

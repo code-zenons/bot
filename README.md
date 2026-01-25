@@ -8,7 +8,8 @@ A smart automated bot designed to help users perform different tasks automatical
 - **24/7 Availability**: Works continuously without stopping
 - **Instant Responses**: Provides fast and accurate replies
 - **Multi-User Support**: Handles many users simultaneously
-- **Task Automation**: Automates common tasks like calculations, time queries, and searches
+- **Task Automation**: Automates common tasks like calculations, time queries, searches, and reel sharing
+- **Reel Sending**: Send reels (short video content) with category support (funny, educational, motivational)
 - **Session Management**: Maintains context for each user session
 - **Multiple Modes**: Support, Info, Task, and General modes
 
@@ -63,6 +64,15 @@ You: what time is it
 
 You: calculate 15 + 27
 🤖 The result is: 42
+
+You: send me a reel
+🤖 🎬 Here's a reel for you! [In a full implementation, this would send an actual video/reel link]
+
+You: show me a funny reel
+🤖 🎬 Here's a funny reel for you! [In a full implementation, this would send an actual funny video/reel link]
+
+You: I want a motivational video
+🤖 🎬 Here's a motivational reel to inspire you! [In a full implementation, this would send an actual motivational video/reel link]
 
 You: help
 🤖 I can help you with:
@@ -156,6 +166,10 @@ The bot understands and responds to:
 - **Time queries**: what time, current date, etc.
 - **Calculations**: calculate 5 + 3, compute 10 * 2, etc.
 - **Search requests**: search for, find, look up, etc.
+- **Reel requests**: send reel, show reel, video, etc.
+  - **Funny reels**: send me a funny reel, show funny video, etc.
+  - **Educational reels**: send educational reel, tutorial video, etc.
+  - **Motivational reels**: show motivational reel, inspiring video, etc.
 - **Questions**: what, why, how, when, where, who, etc.
 
 ## License
