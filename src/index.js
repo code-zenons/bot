@@ -1,149 +1,147 @@
 #!/usr/bin/env node
 
 /**
- * Smart Multi-Purpose Bot - Main Entry Point
- * 
- * This is the main entry point for running the smart bot.
- * It provides a command-line interface for interacting with the bot.
+ * Social Media Bot - Interactive Menu
  */
 
+require('dotenv').config();
 const readline = require('readline');
-const crypto = require('crypto');
+const InstagramBot = require('./bots/instagram');
+const WhatsAppBot = require('./bots/whatsapp');
 const SmartBot = require('./bot');
 
-// Initialize the bot
-const bot = new SmartBot({
-  name: 'SmartBot',
-  mode: 'general'
-});
+const igBot = new InstagramBot();
+const waBot = new WhatsAppBot();
+const smartBot = new SmartBot({ name: 'Assistant' });
 
-// Start the bot
-bot.start();
+// Start the smart bot logic
+smartBot.start();
 
-// Create readline interface for CLI interaction
 const rl = readline.createInterface({
   input: process.stdin,
   output: process.stdout
 });
 
-console.log('\n==========================================');
-console.log('  🤖 Smart Multi-Purpose Bot');
-console.log('==========================================');
-console.log('  Type your message to chat with the bot.');
-console.log('  Commands:');
-console.log('    /help    - Show available commands');
-console.log('    /status  - Show bot status');
-console.log('    /mode    - Change bot mode');
-console.log('    /quit    - Exit the bot');
-console.log('==========================================\n');
+const ask = (query) => new Promise(resolve => rl.question(query, resolve));
+const clear = () => process.stdout.write('\x1Bc');
 
-// Generate a unique user ID for this session using crypto
-const userId = crypto.randomUUID();
-
-/**
- * Handle special commands
- */
-function handleCommand(command) {
-  const parts = command.slice(1).split(' ');
-  const cmd = parts[0].toLowerCase();
-  const args = parts.slice(1);
-
-  switch (cmd) {
-    case 'help':
-      console.log('\n📚 Available Commands:');
-      console.log('  /help            - Show this help message');
-      console.log('  /status          - Show current bot status');
-      console.log('  /mode <mode>     - Change mode (support, info, task, general)');
-      console.log('  /quit or /exit   - Stop the bot and exit');
-      console.log('\n💡 Tips:');
-      console.log('  - Ask any question to get an answer');
-      console.log('  - Say "help" to see what the bot can do');
-      console.log('  - Try "calculate 5 + 3" for math');
-      console.log('  - Try "what time is it" for current time\n');
-      break;
-
-    case 'status':
-      const status = bot.getStatus();
-      console.log('\n📊 Bot Status:');
-      console.log(`  Name: ${status.name}`);
-      console.log(`  Mode: ${status.mode}`);
-      console.log(`  Running: ${status.isRunning ? 'Yes' : 'No'}`);
-      console.log(`  Active Sessions: ${status.activeSessions}`);
-      console.log(`  Total Responses: ${status.totalResponses}\n`);
-      break;
-
-    case 'mode':
-      if (args.length === 0) {
-        console.log('\n⚠️  Please specify a mode: support, info, task, general');
-        console.log('  Usage: /mode <mode>\n');
-      } else {
-        const result = bot.setMode(args[0]);
-        if (result.error) {
-          console.log(`\n⚠️  ${result.error}\n`);
-        } else {
-          console.log(`\n✅ Mode changed to: ${result.mode}\n`);
-        }
-      }
-      break;
-
-    case 'quit':
-    case 'exit':
-      console.log('\n👋 Shutting down...');
-      const stopResult = bot.stop();
-      console.log(`📊 Total responses given: ${stopResult.totalResponses}`);
-      console.log('Goodbye!\n');
-      rl.close();
-      process.exit(0);
-
-    default:
-      console.log(`\n⚠️  Unknown command: /${cmd}`);
-      console.log('  Type /help to see available commands.\n');
-  }
-}
-
-/**
- * Process user input
- */
-function processInput(input) {
-  const trimmedInput = input.trim();
-
-  if (!trimmedInput) {
-    return;
-  }
-
-  // Handle commands
-  if (trimmedInput.startsWith('/')) {
-    handleCommand(trimmedInput);
-    return;
-  }
-
-  // Process message through bot
-  const result = bot.processMessage(userId, trimmedInput);
-
-  if (result.error) {
-    console.log(`\n⚠️  ${result.error}\n`);
-  } else {
-    console.log(`\n🤖 ${result.response}\n`);
-  }
-}
-
-/**
- * Prompt loop
- */
-function prompt() {
-  rl.question('You: ', (input) => {
-    processInput(input);
-    prompt();
-  });
-}
-
-// Start the prompt loop
-prompt();
-
-// Handle graceful shutdown
-process.on('SIGINT', () => {
-  console.log('\n\n👋 Received interrupt signal. Shutting down...');
-  bot.stop();
+async function ensureExit() {
+  console.log('\nGoodbye! 👋');
+  smartBot.stop();
   rl.close();
   process.exit(0);
+}
+
+// --- Instagram Menu ---
+async function instagramMenu() {
+  while (true) {
+    console.log('\n--- 📸 Instagram Automation ---');
+    console.log('1. Open Instagram');
+    console.log('2. Send Direct Message');
+    console.log('3. Open/Send Reel');
+    console.log('4. Back to Main Menu');
+
+    const choice = await ask('\nSelect option (1-4): ');
+
+    switch (choice.trim()) {
+      case '1':
+        await igBot.processCommand('/open');
+        break;
+      case '2':
+        const user = await ask('Enter Username: ');
+        const message = await ask('Enter Message: ');
+        await igBot.sendMessage(user, message);
+        break;
+      case '3':
+        const category = await ask('Enter Category (e.g. funny, tech): ');
+        await igBot.sendReel(category);
+        break;
+      case '4':
+        return;
+      default:
+        console.log('❌ Invalid option.');
+    }
+  }
+}
+
+// --- WhatsApp Menu ---
+async function whatsappMenu() {
+  while (true) {
+    console.log('\n--- 💬 WhatsApp Automation ---');
+    console.log('1. Open WhatsApp Web');
+    console.log('2. Send Message (Open Chat)');
+    console.log('3. Back to Main Menu');
+
+    const choice = await ask('\nSelect option (1-3): ');
+
+    switch (choice.trim()) {
+      case '1':
+        await waBot.processCommand('open', []);
+        break;
+      case '2':
+        const num = await ask('Enter Phone Number (e.g. 15551234567): ');
+        const msg = await ask('Enter Message: ');
+        await waBot.sendDirectMessage(num, msg);
+        break;
+      case '3':
+        return;
+      default:
+        console.log('❌ Invalid option.');
+    }
+  }
+}
+
+// --- Chat with SmartBot ---
+async function chatMenu() {
+  console.log('\n--- 🤖 Chat with SmartBot (Type "exit" to back) ---');
+  while (true) {
+    const input = await ask('\nYou: ');
+    if (input.toLowerCase() === 'exit') return;
+
+    const result = smartBot.processMessage('user-cli', input);
+    console.log(`Bot: ${result.response}`);
+  }
+}
+
+// --- Main Menu ---
+async function mainMenu() {
+  clear();
+  console.log('==========================================');
+  console.log('  🤖 Social Media Automation Bot');
+  console.log('==========================================');
+
+  while (true) {
+    console.log('\n--- Main Menu ---');
+    console.log('1. Instagram');
+    console.log('2. WhatsApp');
+    console.log('3. Chat with Bot');
+    console.log('4. Exit');
+
+    const choice = await ask('\nSelect Platform (1-4): ');
+
+    switch (choice.trim()) {
+      case '1':
+        await instagramMenu();
+        break;
+      case '2':
+        await whatsappMenu();
+        break;
+      case '3':
+        await chatMenu();
+        break;
+      case '4':
+        await ensureExit();
+        return;
+      default:
+        console.log('❌ Invalid option. Please select 1-4.');
+    }
+  }
+}
+
+// Handle shutdown
+process.on('SIGINT', () => {
+  ensureExit();
 });
+
+// Start
+mainMenu().catch(console.error);
