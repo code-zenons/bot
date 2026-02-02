@@ -13,7 +13,7 @@ class SmartBot {
     this.isRunning = false;
     this.userSessions = new Map();
     this.responseCount = 0;
-    
+
     // Knowledge base for different use cases
     this.knowledgeBase = {
       greetings: ['hello', 'hi', 'hey', 'good morning', 'good afternoon', 'good evening'],
@@ -23,7 +23,7 @@ class SmartBot {
       questions: ['what', 'why', 'how', 'when', 'where', 'who', 'which', 'can you', 'could you'],
       reels: ['reel', 'reels', 'video', 'short video', 'send reel']
     };
-    
+
     // Pre-defined responses for common queries
     this.responses = {
       greeting: [
@@ -56,7 +56,7 @@ class SmartBot {
         "Let me think about that... Could you be more specific?"
       ]
     };
-    
+
     // Task automation patterns
     this.taskPatterns = {
       remind: /remind(?:er)?|schedule|set alarm/i,
@@ -119,7 +119,7 @@ class SmartBot {
     session.context.push({ role: 'user', content: message, timestamp: new Date() });
 
     const response = this.generateResponse(message.toLowerCase().trim());
-    
+
     session.context.push({ role: 'bot', content: response, timestamp: new Date() });
     this.responseCount++;
 
@@ -129,6 +129,29 @@ class SmartBot {
       response,
       timestamp: new Date().toISOString(),
       sessionMessages: session.messageCount
+    };
+  }
+
+  /**
+   * Send a proactive message to a user
+   */
+  sendMessage(userId, content) {
+    if (!this.isRunning) {
+      return { error: 'Bot is not running.' };
+    }
+
+    const session = this.getSession(userId);
+    // Add bot message to context
+    session.context.push({ role: 'bot', content, timestamp: new Date() });
+    this.responseCount++;
+
+    console.log(`[${this.name}] Sending message to ${userId}: ${content}`);
+
+    return {
+      success: true,
+      userId,
+      message: content,
+      timestamp: new Date().toISOString()
     };
   }
 
@@ -247,15 +270,15 @@ class SmartBot {
     if (input.includes('funny') || input.includes('comedy') || input.includes('humor')) {
       return "🎬 Here's a funny reel for you! [In a full implementation, this would send an actual funny video/reel link]";
     }
-    
+
     if (input.includes('educational') || input.includes('learning') || input.includes('tutorial')) {
       return "🎬 Here's an educational reel for you! [In a full implementation, this would send an actual educational video/reel link]";
     }
-    
+
     if (input.includes('motivational') || input.includes('inspiring') || input.includes('motivation')) {
       return "🎬 Here's a motivational reel to inspire you! [In a full implementation, this would send an actual motivational video/reel link]";
     }
-    
+
     // Default reel response
     return this.getRandomResponse('reels');
   }
@@ -268,21 +291,21 @@ class SmartBot {
     if (!/^[\d\s\+\-\*\/]+$/.test(expression)) {
       throw new Error('Invalid expression');
     }
-    
+
     // Parse and calculate manually for safety
     const parts = expression.split(/(\+|\-|\*|\/)/).map(p => p.trim()).filter(p => p);
     if (parts.length !== 3) {
       throw new Error('Invalid expression format - expected format: number operator number');
     }
-    
+
     const num1 = parseFloat(parts[0]);
     const operator = parts[1];
     const num2 = parseFloat(parts[2]);
-    
+
     if (isNaN(num1) || isNaN(num2)) {
       throw new Error('Invalid numbers in expression');
     }
-    
+
     switch (operator) {
       case '+': return num1 + num2;
       case '-': return num1 - num2;

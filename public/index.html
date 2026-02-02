@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bot Command Center</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="bg-orbs">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+    <div class="container">
+        <div class="card">
+            <header>
+                <div style="display: flex; justify-content: flex-end; margin-bottom: 10px;">
+                    <button id="logoutBtn"
+                        style="width: auto; padding: 0.5rem 1rem; font-size: 0.8rem; background: rgba(255,255,255,0.1); border: 1px solid var(--border-color);">Logout</button>
+                </div>
+                <h1>Bot Command Center</h1>
+                <p class="subtitle">Send messages directly to users via SmartBot</p>
+                <p id="welcomeMsg" style="color: var(--primary-color); font-size: 0.9rem; margin-top: 5px;"></p>
+            </header>
+
+            <form id="messageForm">
+                <div class="form-group">
+                    <label for="targetId">Target ID</label>
+                    <input type="text" id="targetId" name="targetId" placeholder="e.g. user-123-uuid" required
+                        autocomplete="off">
+                </div>
+
+                <div class="form-group">
+                    <label for="message">Message</label>
+                    <textarea id="message" name="message" placeholder="Type your message here..." required></textarea>
+                </div>
+
+                <button type="submit" id="submitBtn">
+                    <span>Send Message</span>
+                </button>
+            </form>
+
+            <div id="status"></div>
+        </div>
+    </div>
+
+    <script>
+        // Check Auth Status
+        fetch('/api/me')
+            .then(res => res.json())
+            .then(data => {
+                if (!data.authenticated) {
+                    window.location.href = '/login.html';
+                } else {
+                    document.getElementById('welcomeMsg').textContent = `Welcome, ${data.username}`;
+                }
+            })
+            .catch(() => {
+                window.location.href = '/login.html';
+            });
+
+        const form = document.getElementById('messageForm');
+        const submitBtn = document.getElementById('submitBtn');
+        const statusDiv = document.getElementById('status');
+        const targetIdInput = document.getElementById('targetId');
+        const logoutBtn = document.getElementById('logoutBtn');
+
+        // Initial focus
+        targetIdInput.focus();
+
+        logoutBtn.addEventListener('click', async () => {
+            try {
+                await fetch('/api/logout', { method: 'POST' });
+                window.location.href = '/login.html';
+            } catch (error) {
+                console.error('Logout failed', error);
+            }
+        });
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const btnOriginalText = submitBtn.innerHTML;
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<span class="loader"></span> Sending...';
+            statusDiv.style.display = 'none';
+            statusDiv.className = '';
+
+            const formData = {
+                targetId: document.getElementById('targetId').value.trim(),
+                message: document.getElementById('message').value.trim()
+            };
+
+            try {
+                const response = await fetch('/api/send-message', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(formData)
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    showStatus('Message sent successfully!', 'success');
+                    document.getElementById('message').value = '';
+                } else {
+                    showStatus(result.error || 'Failed to send message', 'error');
+                }
+            } catch (error) {
+                showStatus('Network error. Please try again.', 'error');
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = btnOriginalText;
+            }
+        });
+
+        function showStatus(text, type) {
+            statusDiv.textContent = text;
+            statusDiv.className = type;
+            statusDiv.style.display = 'block';
+
+            if (type === 'success') {
+                setTimeout(() => {
+                    statusDiv.style.display = 'none';
+                }, 3000);
+            }
+        }
+    </script>
+</body>
+
+</html>

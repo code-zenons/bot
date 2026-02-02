@@ -5,6 +5,7 @@
   "main": "src/index.js",
   "scripts": {
     "start": "node src/index.js",
+    "start:web": "node src/server.js",
     "test": "node test/bot.test.js"
   },
   "keywords": [
@@ -15,5 +16,10 @@
     "chat"
   ],
   "author": "zenons",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "bcryptjs": "^3.0.3",
+    "express": "^5.2.1",
+    "express-session": "^1.19.0"
+  }
 }
