@@ -20,17 +20,17 @@
     <div class="container">
         <div class="card">
             <header>
-                <h1>Welcome Back</h1>
-                <p class="subtitle">Login to access the Bot Command Center</p>
+                <h1 class="animate-enter delay-1">Welcome Back</h1>
+                <p class="subtitle animate-enter delay-2">Login to access the Bot Command Center</p>
             </header>
 
             <form id="loginForm">
-                <div class="form-group">
+                <div class="form-group animate-enter delay-3">
                     <label for="username">Username</label>
                     <input type="text" id="username" name="username" required autocomplete="username">
                 </div>
 
-                <div class="form-group">
+                <div class="form-group animate-enter delay-3">
                     <label for="password">Password</label>
                     <div class="password-wrapper">
                         <input type="password" id="password" name="password" required autocomplete="current-password">
@@ -39,14 +39,15 @@
                     </div>
                 </div>
 
-                <button type="submit" id="submitBtn">
+                <button type="submit" id="submitBtn" class="animate-enter delay-4">
                     <span>Login</span>
                 </button>
             </form>
 
             <div id="status"></div>
 
-            <div style="text-align: center; margin-top: 1.5rem; color: var(--text-muted); font-size: 0.9rem;">
+            <div style="text-align: center; margin-top: 1.5rem; color: var(--text-muted); font-size: 0.9rem;"
+                class="animate-enter delay-5">
                 Don't have an account? <a href="/signup.html"
                     style="color: var(--primary-color); text-decoration: none; font-weight: 600;">Sign Up</a>
             </div>
@@ -64,6 +65,37 @@
                 btn.textContent = "👁️";
             }
         }
+
+        // Mouse Move Effects (Parallax & Tilt)
+        const container = document.querySelector('.container');
+        const card = document.querySelector('.card');
+        const orbs = document.querySelectorAll('.orb');
+
+        document.addEventListener('mousemove', (e) => {
+            const xAxis = (window.innerWidth / 2 - e.pageX) / 25;
+            const yAxis = (window.innerHeight / 2 - e.pageY) / 25;
+
+            // Tilt Card
+            if (card) {
+                card.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
+            }
+
+            // Parallax Orbs
+            orbs.forEach((orb, index) => {
+                const speed = (index + 1) * 2;
+                const x = (window.innerWidth - e.pageX * speed) / 100;
+                const y = (window.innerHeight - e.pageY * speed) / 100;
+                orb.style.transform = `translateX(${x}px) translateY(${y}px)`;
+            });
+        });
+
+        // Reset Tilt on leave
+        document.addEventListener('mouseleave', () => {
+            if (card) {
+                card.style.transform = 'rotateY(0deg) rotateX(0deg)';
+                card.style.transition = 'transform 0.5s ease';
+            }
+        });
 
         const form = document.getElementById('loginForm');
         const submitBtn = document.getElementById('submitBtn');
@@ -94,6 +126,11 @@
                     window.location.href = '/';
                 } else {
                     showStatus(result.error || 'Login failed', 'error');
+                    // Shake effect on error
+                    document.querySelector('.card').classList.add('shake');
+                    setTimeout(() => {
+                        document.querySelector('.card').classList.remove('shake');
+                    }, 500);
                 }
             } catch (error) {
                 showStatus('Network error. Please try again.', 'error');

@@ -13,6 +13,44 @@
   --glow: 0 0 20px rgba(99, 102, 241, 0.6);
 }
 
+/* Entrance Animations */
+@keyframes slideUpFade {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-enter {
+  opacity: 0;
+  animation: slideUpFade 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+
+.delay-1 {
+  animation-delay: 0.1s;
+}
+
+.delay-2 {
+  animation-delay: 0.2s;
+}
+
+.delay-3 {
+  animation-delay: 0.3s;
+}
+
+.delay-4 {
+  animation-delay: 0.4s;
+}
+
+.delay-5 {
+  animation-delay: 0.5s;
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -142,6 +180,34 @@ body::before {
   border-color: rgba(255, 255, 255, 0.2);
 }
 
+.card.shake {
+  animation: shake 0.5s cubic-bezier(.36, .07, .19, .97) both;
+}
+
+@keyframes shake {
+
+  10%,
+  90% {
+    transform: translate3d(-1px, 0, 0);
+  }
+
+  20%,
+  80% {
+    transform: translate3d(2px, 0, 0);
+  }
+
+  30%,
+  50%,
+  70% {
+    transform: translate3d(-4px, 0, 0);
+  }
+
+  40%,
+  60% {
+    transform: translate3d(4px, 0, 0);
+  }
+}
+
 header {
   text-align: center;
   margin-bottom: 2.5rem;
@@ -265,6 +331,21 @@ button {
   position: relative;
   overflow: hidden;
   box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+  animation: pulse-glow 2s infinite;
+}
+
+@keyframes pulse-glow {
+  0% {
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+  }
+
+  50% {
+    box-shadow: 0 4px 20px rgba(99, 102, 241, 0.6);
+  }
+
+  100% {
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+  }
 }
 
 /* Button Shine Effect */
