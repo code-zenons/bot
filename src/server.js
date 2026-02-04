@@ -34,7 +34,7 @@ const requireAuth = (req, res, next) => {
             return res.status(401).json({ error: 'Unauthorized' });
         }
         // If page request, redirect to login
-        if (!req.path.startsWith('/api/') && !req.path.includes('login.html') && !req.path.includes('signup.html') && !req.path.includes('style.css')) {
+        if (!req.path.startsWith('/api/') && !req.path.includes('login.html') && !req.path.includes('signup.html') && !req.path.includes('features.html') && !req.path.includes('style.css')) {
             return res.redirect('/login.html');
         }
         next();

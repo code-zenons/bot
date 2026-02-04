@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Features - Bot Command Center</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        .features-list {
+            text-align: left;
+            margin: 2rem 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .features-list li {
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            color: var(--text-color);
+        }
+
+        .features-list li::before {
+            content: "✨";
+            margin-right: 10px;
+        }
+
+        .back-link {
+            text-align: center;
+            margin-top: 2rem;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="bg-orbs">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+    <div class="container">
+        <div class="card">
+            <header>
+                <h1 class="animate-enter delay-1">Bot Features</h1>
+                <p class="subtitle animate-enter delay-2">Explore what the Smart Bot can do for you</p>
+            </header>
+
+            <ul class="features-list animate-enter delay-3">
+                <li>
+                    <div>
+                        <strong>Instagram Automation</strong>
+                        <p class="text-sm text-muted">Open Instagram directly from the bot.</p>
+                    </div>
+                </li>
+                <li>
+                    <div>
+                        <strong>Smart DM</strong>
+                        <p class="text-sm text-muted">Send direct messages to users easily.</p>
+                    </div>
+                </li>
+                <li>
+                    <div>
+                        <strong>Reel Browsing</strong>
+                        <p class="text-sm text-muted">Deep link to specific reel categories and tags.</p>
+                    </div>
+                </li>
+                <li>
+                    <div>
+                        <strong>Secure Authentication</strong>
+                        <p class="text-sm text-muted">User accounts with password encryption.</p>
+                    </div>
+                </li>
+            </ul>
+
+            <div class="back-link animate-enter delay-4">
+                <a href="/login.html" class="button"
+                    style="text-decoration: none; padding: 0.75rem 1.5rem; display: inline-block;">Back to Login</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Mouse Move Effects (Parallax & Tilt) - Reused from login.html
+        const container = document.querySelector('.container');
+        const card = document.querySelector('.card');
+        const orbs = document.querySelectorAll('.orb');
+
+        document.addEventListener('mousemove', (e) => {
+            const xAxis = (window.innerWidth / 2 - e.pageX) / 25;
+            const yAxis = (window.innerHeight / 2 - e.pageY) / 25;
+
+            if (card) {
+                card.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
+            }
+
+            orbs.forEach((orb, index) => {
+                const speed = (index + 1) * 2;
+                const x = (window.innerWidth - e.pageX * speed) / 100;
+                const y = (window.innerHeight - e.pageY * speed) / 100;
+                orb.style.transform = `translateX(${x}px) translateY(${y}px)`;
+            });
+        });
+
+        document.addEventListener('mouseleave', () => {
+            if (card) {
+                card.style.transform = 'rotateY(0deg) rotateX(0deg)';
+                card.style.transition = 'transform 0.5s ease';
+            }
+        });
+    </script>
+</body>
+
+</html>
