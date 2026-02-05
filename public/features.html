@@ -8,110 +8,103 @@
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         .features-list {
-            text-align: left;
             margin: 2rem 0;
             padding: 0;
             list-style: none;
         }
 
         .features-list li {
-            margin-bottom: 1rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+        }
+
+        .icon-box {
+            background: rgba(99, 102, 241, 0.1);
+            color: var(--primary);
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
             display: flex;
             align-items: center;
-            color: var(--text-color);
+            justify-content: center;
+            flex-shrink: 0;
+            border: 1px solid rgba(99, 102, 241, 0.2);
         }
 
-        .features-list li::before {
-            content: "✨";
-            margin-right: 10px;
+        .feature-content h3 {
+            font-size: 1rem;
+            color: var(--text-main);
+            margin-bottom: 0.25rem;
+            font-weight: 600;
         }
 
-        .back-link {
-            text-align: center;
-            margin-top: 2rem;
+        .feature-content p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            line-height: 1.5;
         }
     </style>
 </head>
 
 <body>
-    <div class="bg-orbs">
+    <div class="bg-canvas">
         <div class="orb orb-1"></div>
         <div class="orb orb-2"></div>
         <div class="orb orb-3"></div>
     </div>
+
     <div class="container">
-        <div class="card">
-            <header>
-                <h1 class="animate-enter delay-1">Bot Features</h1>
-                <p class="subtitle animate-enter delay-2">Explore what the Smart Bot can do for you</p>
+        <div class="glass-card">
+            <header style="text-align: center; margin-bottom: 2rem;">
+                <h1>Capabilities</h1>
+                <p class="subtitle">System modules and features</p>
             </header>
 
-            <ul class="features-list animate-enter delay-3">
+            <ul class="features-list">
                 <li>
-                    <div>
-                        <strong>Instagram Automation</strong>
-                        <p class="text-sm text-muted">Open Instagram directly from the bot.</p>
+                    <div class="icon-box">📸</div>
+                    <div class="feature-content">
+                        <h3>Instagram Automation</h3>
+                        <p>Seamlessly interface with Instagram. Trigger actions, view status, and manage media
+                            interactions.</p>
                     </div>
                 </li>
                 <li>
-                    <div>
-                        <strong>Smart DM</strong>
-                        <p class="text-sm text-muted">Send direct messages to users easily.</p>
+                    <div class="icon-box">💬</div>
+                    <div class="feature-content">
+                        <h3>Smart Direct Messaging</h3>
+                        <p>Target specific users with automated messaging protocols. High delivery reliability.</p>
                     </div>
                 </li>
                 <li>
-                    <div>
-                        <strong>Reel Browsing</strong>
-                        <p class="text-sm text-muted">Deep link to specific reel categories and tags.</p>
+                    <div class="icon-box">🎞️</div>
+                    <div class="feature-content">
+                        <h3>Content Discovery</h3>
+                        <p>Browse reels by category and tag. Auto-curation of relevant content streams.</p>
                     </div>
                 </li>
                 <li>
-                    <div>
-                        <strong>Secure Authentication</strong>
-                        <p class="text-sm text-muted">User accounts with password encryption.</p>
+                    <div class="icon-box">🛡️</div>
+                    <div class="feature-content">
+                        <h3>Secure Access</h3>
+                        <p>Encrypted operator credentials ensuring strictly authorized command execution.</p>
                     </div>
                 </li>
             </ul>
 
-            <div class="back-link animate-enter delay-4">
-                <a href="/login.html" class="button"
-                    style="text-decoration: none; padding: 0.75rem 1.5rem; display: inline-block;">Back to Login</a>
+            <div style="text-align: center; margin-top: 2rem;">
+                <a href="/login.html" class="btn btn-secondary"
+                    style="display: inline-block; width: auto; text-decoration: none;">
+                    ← Return to Authentication
+                </a>
             </div>
         </div>
     </div>
-
-    <script>
-        // Mouse Move Effects (Parallax & Tilt) - Reused from login.html
-        const container = document.querySelector('.container');
-        const card = document.querySelector('.card');
-        const orbs = document.querySelectorAll('.orb');
-
-        document.addEventListener('mousemove', (e) => {
-            const xAxis = (window.innerWidth / 2 - e.pageX) / 25;
-            const yAxis = (window.innerHeight / 2 - e.pageY) / 25;
-
-            if (card) {
-                card.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
-            }
-
-            orbs.forEach((orb, index) => {
-                const speed = (index + 1) * 2;
-                const x = (window.innerWidth - e.pageX * speed) / 100;
-                const y = (window.innerHeight - e.pageY * speed) / 100;
-                orb.style.transform = `translateX(${x}px) translateY(${y}px)`;
-            });
-        });
-
-        document.addEventListener('mouseleave', () => {
-            if (card) {
-                card.style.transform = 'rotateY(0deg) rotateX(0deg)';
-                card.style.transition = 'transform 0.5s ease';
-            }
-        });
-    </script>
 </body>
 
 </html>
