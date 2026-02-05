@@ -8,41 +8,54 @@
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
 </head>
 
 <body>
-    <div class="bg-orbs">
+    <div class="bg-canvas">
         <div class="orb orb-1"></div>
         <div class="orb orb-2"></div>
         <div class="orb orb-3"></div>
     </div>
+
     <div class="container">
-        <div class="card">
-            <header>
-                <div style="display: flex; justify-content: flex-end; margin-bottom: 10px;">
-                    <button id="logoutBtn"
-                        style="width: auto; padding: 0.5rem 1rem; font-size: 0.8rem; background: rgba(255,255,255,0.1); border: 1px solid var(--border-color);">Logout</button>
+        <div class="glass-card">
+            <header style="margin-bottom: 2.5rem; text-align: center;">
+                <div style="display: flex; justify-content: flex-end; margin-bottom: 1.5rem;">
+                    <button id="logoutBtn" class="btn btn-secondary"
+                        style="width: auto; padding: 0.5rem 1rem; font-size: 0.8rem;">
+                        <span style="font-size: 1.2em;">⏻</span> Logout
+                    </button>
                 </div>
-                <h1>Bot Command Center</h1>
-                <p class="subtitle">Send messages directly to users via SmartBot</p>
-                <p id="welcomeMsg" style="color: var(--primary-color); font-size: 0.9rem; margin-top: 5px;"></p>
+                <h1>Command Center</h1>
+                <p class="subtitle">Orchestrate your social interactions</p>
+                <div id="welcomeMsg"
+                    style="color: var(--primary); font-size: 0.9rem; font-weight: 600; background: rgba(99, 102, 241, 0.1); display: inline-block; padding: 0.25rem 0.75rem; border-radius: 20px; border: 1px solid rgba(99, 102, 241, 0.2);">
+                </div>
             </header>
 
             <form id="messageForm">
                 <div class="form-group">
-                    <label for="targetId">Target ID</label>
-                    <input type="text" id="targetId" name="targetId" placeholder="e.g. user-123-uuid" required
-                        autocomplete="off">
+                    <label for="targetId">Target Identity</label>
+                    <div class="input-wrapper">
+                        <input type="text" id="targetId" name="targetId" placeholder="USER-UUID-V4" required
+                            autocomplete="off" style="font-family: 'JetBrains Mono', monospace;">
+                    </div>
                 </div>
 
                 <div class="form-group">
-                    <label for="message">Message</label>
-                    <textarea id="message" name="message" placeholder="Type your message here..." required></textarea>
+                    <label for="message">Transmission</label>
+                    <div class="input-wrapper">
+                        <textarea id="message" name="message" placeholder="Type your message..." required
+                            rows="4"></textarea>
+                    </div>
                 </div>
 
-                <button type="submit" id="submitBtn">
-                    <span>Send Message</span>
+                <button type="submit" id="submitBtn" class="btn">
+                    <span>Send Transmission</span>
+                    <span style="font-size: 1.2em;">➔</span>
                 </button>
             </form>
 
@@ -58,7 +71,7 @@
                 if (!data.authenticated) {
                     window.location.href = '/login.html';
                 } else {
-                    document.getElementById('welcomeMsg').textContent = `Welcome, ${data.username}`;
+                    document.getElementById('welcomeMsg').textContent = `Operator: ${data.username}`;
                 }
             })
             .catch(() => {
@@ -86,9 +99,9 @@
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
 
-            const btnOriginalText = submitBtn.innerHTML;
+            const btnOriginalContent = submitBtn.innerHTML;
             submitBtn.disabled = true;
-            submitBtn.innerHTML = '<span class="loader"></span> Sending...';
+            submitBtn.innerHTML = '<div class="spinner"></div> Sending...';
             statusDiv.style.display = 'none';
             statusDiv.className = '';
 
@@ -109,16 +122,16 @@
                 const result = await response.json();
 
                 if (response.ok) {
-                    showStatus('Message sent successfully!', 'success');
+                    showStatus('Transmission successful', 'success');
                     document.getElementById('message').value = '';
                 } else {
-                    showStatus(result.error || 'Failed to send message', 'error');
+                    showStatus(result.error || 'Transmission failed', 'error');
                 }
             } catch (error) {
-                showStatus('Network error. Please try again.', 'error');
+                showStatus('Network anomaly detected', 'error');
             } finally {
                 submitBtn.disabled = false;
-                submitBtn.innerHTML = btnOriginalText;
+                submitBtn.innerHTML = btnOriginalContent;
             }
         });
 
