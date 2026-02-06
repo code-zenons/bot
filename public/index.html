@@ -4,58 +4,60 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bot Command Center</title>
+    <title>COMMAND CENTER // MAIN</title>
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;400;500;600;700&family=Orbitron:wght@400;500;700&family=Share+Tech+Mono&display=swap"
         rel="stylesheet">
 </head>
 
 <body>
-    <div class="bg-canvas">
-        <div class="orb orb-1"></div>
-        <div class="orb orb-2"></div>
-        <div class="orb orb-3"></div>
-    </div>
+    <!-- Background Elements -->
+    <div class="bg-canvas"></div>
+    <div class="scanlines"></div>
 
     <div class="container">
-        <div class="glass-card">
+        <div class="mech-card">
+            <!-- HUD DECO -->
+            <div class="hud-deco deco-top">CMD_CENTER // ONLINE</div>
+            <div class="hud-deco deco-bot">SYS.UPTIME: 99.9%</div>
+
             <header style="margin-bottom: 2.5rem; text-align: center;">
                 <div style="display: flex; justify-content: flex-end; margin-bottom: 1.5rem;">
                     <button id="logoutBtn" class="btn btn-secondary"
-                        style="width: auto; padding: 0.5rem 1rem; font-size: 0.8rem;">
-                        <span style="font-size: 1.2em;">⏻</span> Logout
+                        style="width: auto; padding: 0.5rem 1rem; font-size: 0.8rem; font-family: var(--font-mono);">
+                        [ DISCONNECT ]
                     </button>
                 </div>
                 <h1>Command Center</h1>
-                <p class="subtitle">Orchestrate your social interactions</p>
+                <p class="subtitle">Orchestrate Social Interactions</p>
                 <div id="welcomeMsg"
-                    style="color: var(--primary); font-size: 0.9rem; font-weight: 600; background: rgba(99, 102, 241, 0.1); display: inline-block; padding: 0.25rem 0.75rem; border-radius: 20px; border: 1px solid rgba(99, 102, 241, 0.2);">
+                    style="color: var(--primary); font-family: var(--font-mono); font-size: 0.8rem; background: rgba(0, 240, 255, 0.1); display: inline-block; padding: 0.25rem 0.75rem; border: 1px solid var(--primary); margin-top: 10px;">
+                    > IDENTIFYING OPERATOR...
                 </div>
             </header>
 
             <form id="messageForm">
                 <div class="form-group">
-                    <label for="targetId">Target Identity</label>
+                    <label for="targetId">Target Identity [UUID]</label>
                     <div class="input-wrapper">
-                        <input type="text" id="targetId" name="targetId" placeholder="USER-UUID-V4" required
-                            autocomplete="off" style="font-family: 'JetBrains Mono', monospace;">
+                        <input type="text" id="targetId" name="targetId" placeholder="> INPUT TARGET UUID" required
+                            autocomplete="off">
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label for="message">Transmission</label>
+                    <label for="message">Transmission Data</label>
                     <div class="input-wrapper">
-                        <textarea id="message" name="message" placeholder="Type your message..." required
+                        <textarea id="message" name="message" placeholder="> INPUT MESSAGE CONTENT..." required
                             rows="4"></textarea>
                     </div>
                 </div>
 
                 <button type="submit" id="submitBtn" class="btn">
-                    <span>Send Transmission</span>
-                    <span style="font-size: 1.2em;">➔</span>
+                    <span>Execute Transmission</span>
                 </button>
             </form>
 
@@ -71,7 +73,7 @@
                 if (!data.authenticated) {
                     window.location.href = '/login.html';
                 } else {
-                    document.getElementById('welcomeMsg').textContent = `Operator: ${data.username}`;
+                    document.getElementById('welcomeMsg').textContent = `> OPERATOR: ${data.username.toUpperCase()}`;
                 }
             })
             .catch(() => {
@@ -101,7 +103,7 @@
 
             const btnOriginalContent = submitBtn.innerHTML;
             submitBtn.disabled = true;
-            submitBtn.innerHTML = '<div class="spinner"></div> Sending...';
+            submitBtn.innerHTML = '<div class="spinner"></div> TRANSMITTING...';
             statusDiv.style.display = 'none';
             statusDiv.className = '';
 
@@ -122,13 +124,13 @@
                 const result = await response.json();
 
                 if (response.ok) {
-                    showStatus('Transmission successful', 'success');
+                    showStatus('> TRANSMISSION SUCCESSFUL', 'success');
                     document.getElementById('message').value = '';
                 } else {
-                    showStatus(result.error || 'Transmission failed', 'error');
+                    showStatus('> ERROR: ' + (result.error || 'TRANSMISSION FAILED'), 'error');
                 }
             } catch (error) {
-                showStatus('Network anomaly detected', 'error');
+                showStatus('> NETWORK ANOMALY DETECTED', 'error');
             } finally {
                 submitBtn.disabled = false;
                 submitBtn.innerHTML = btnOriginalContent;
