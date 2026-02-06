@@ -4,72 +4,77 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign Up - Bot Command Center</title>
+    <title>NEW OPERATOR REGISTRATION</title>
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;400;500;600;700&family=Orbitron:wght@400;500;700&family=Share+Tech+Mono&display=swap"
+        rel="stylesheet">
 </head>
 
 <body>
-    <div class="bg-canvas">
-        <div class="orb orb-1"></div>
-        <div class="orb orb-2"></div>
-        <div class="orb orb-3"></div>
-    </div>
+    <!-- Background Elements -->
+    <div class="bg-canvas"></div>
+    <div class="scanlines"></div>
 
     <div class="container">
-        <div class="glass-card">
+        <div class="mech-card">
+            <!-- HUD DECO -->
+            <div class="hud-deco deco-top">REGISTRATION // NEW_ENTRY</div>
+            <div class="hud-deco deco-bot">SECURE_CHANNEL // ENCRYPTED</div>
+
             <header style="text-align: center; margin-bottom: 2.5rem;">
                 <h1>New Operator</h1>
-                <p class="subtitle">Establish your secure credentials</p>
+                <p class="subtitle">Establish Security Protocol</p>
             </header>
 
             <form id="signupForm">
                 <div class="form-group">
-                    <label for="username">Operator ID</label>
+                    <label for="username">Operator Call-Sign (ID)</label>
                     <div class="input-wrapper">
                         <input type="text" id="username" name="username" required autocomplete="username"
-                            placeholder="Choose a username">
+                            placeholder="> CREATE ID">
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label for="password">Passcode</label>
+                    <label for="password">Security Code</label>
                     <div class="input-wrapper">
                         <input type="password" id="password" name="password" required autocomplete="new-password"
-                            placeholder="Set a password">
+                            placeholder="> SET PASSCODE">
                         <button type="button" class="btn-secondary" onclick="togglePassword('password', this)"
-                            style="position: absolute; right: 5px; top: 5px; height: calc(100% - 10px); width: auto; padding: 0 10px; border: none; background: transparent;">👁️</button>
+                            style="position: absolute; right: 0; top: 0; height: 100%; width: 40px; border: none; border-left: 1px solid var(--text-muted); background: rgba(0,0,0,0.3);">👁️</button>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label for="confirmPassword">Confirm Passcode</label>
+                    <label for="confirmPassword">Confirm Code</label>
                     <div class="input-wrapper">
                         <input type="password" id="confirmPassword" name="confirmPassword" required
-                            autocomplete="new-password" placeholder="Confirm your password">
+                            autocomplete="new-password" placeholder="> VERIFY PASSCODE">
                         <button type="button" class="btn-secondary" onclick="togglePassword('confirmPassword', this)"
-                            style="position: absolute; right: 5px; top: 5px; height: calc(100% - 10px); width: auto; padding: 0 10px; border: none; background: transparent;">👁️</button>
+                            style="position: absolute; right: 0; top: 0; height: 100%; width: 40px; border: none; border-left: 1px solid var(--text-muted); background: rgba(0,0,0,0.3);">👁️</button>
                     </div>
                 </div>
 
                 <button type="submit" id="submitBtn" class="btn mt-4">
                     <span>Initialize Profile</span>
-                    <span style="font-size: 1.2em;">➔</span>
                 </button>
             </form>
 
             <div id="status"></div>
 
-            <div style="text-align: center; margin-top: 2rem;">
-                <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 0.5rem;">Existing Operator?</p>
-                <a href="/login.html" class="text-link">Access Terminal</a>
+            <div
+                style="text-align: center; margin-top: 2rem; border-top: 1px dashed var(--text-muted); padding-top: 1rem;">
+                <p
+                    style="color: var(--text-muted); font-size: 0.8rem; margin-bottom: 0.5rem; font-family: var(--font-mono);">
+                    ALREADY AUTHORIZED?</p>
+                <a href="/login.html" class="text-link">[ ACCESS TERMINAL ]</a>
             </div>
 
             <div style="text-align: center; margin-top: 1rem;">
-                <a href="/features.html" class="text-link" style="font-size: 0.85rem; opacity: 0.8;">Explore
-                    Capabilities</a>
+                <a href="/features.html" class="text-link" style="opacity: 0.7;">[ SYSTEM CAPABILITIES ]</a>
             </div>
         </div>
     </div>
@@ -97,13 +102,13 @@
             const confirmPassword = document.getElementById('confirmPassword').value;
 
             if (password !== confirmPassword) {
-                showStatus('Passcode mismatch detected', 'error');
+                showStatus('ERROR: PASSCODE MISMATCH DETECTED', 'error');
                 return;
             }
 
             const btnOriginalContent = submitBtn.innerHTML;
             submitBtn.disabled = true;
-            submitBtn.innerHTML = '<div class="spinner"></div> Creating Profile...';
+            submitBtn.innerHTML = '<div class="spinner"></div> INITIALIZING...';
             statusDiv.style.display = 'none';
 
             const formData = {
@@ -121,17 +126,17 @@
                 const result = await response.json();
 
                 if (response.ok) {
-                    showStatus('Profile established. Redirecting...', 'success');
+                    showStatus('PROFILE ESTABLISHED. REDIRECTING...', 'success');
                     setTimeout(() => {
                         window.location.href = '/';
                     }, 1500);
                 } else {
-                    showStatus(result.error || 'Initialization failed', 'error');
+                    showStatus('INITIALIZATION FAILED: ' + (result.error || 'UNKNOWN ERROR'), 'error');
                 }
             } catch (error) {
-                showStatus('Network anomaly detected', 'error');
+                showStatus('NETWORK ANOMALY DETECTED', 'error');
             } finally {
-                if (!statusDiv.textContent.includes('Redirecting')) {
+                if (!statusDiv.textContent.includes('REDIRECTING')) {
                     submitBtn.disabled = false;
                     submitBtn.innerHTML = btnOriginalContent;
                 }

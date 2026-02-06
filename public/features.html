@@ -4,11 +4,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Features - Bot Command Center</title>
+    <title>SYSTEM MODULES // FEATURES</title>
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;400;500;600;700&family=Orbitron:wght@400;500;700&family=Share+Tech+Mono&display=swap"
+        rel="stylesheet">
     <style>
         .features-list {
             margin: 2rem 0;
@@ -17,91 +19,104 @@
         }
 
         .features-list li {
-            margin-bottom: 1.5rem;
+            margin-bottom: 2rem;
             display: flex;
             align-items: flex-start;
-            gap: 1rem;
+            gap: 1.5rem;
+            border-bottom: 1px solid rgba(0, 240, 255, 0.1);
+            padding-bottom: 1.5rem;
+        }
+
+        .features-list li:last-child {
+            border-bottom: none;
         }
 
         .icon-box {
-            background: rgba(99, 102, 241, 0.1);
+            background: rgba(0, 240, 255, 0.05);
             color: var(--primary);
-            width: 36px;
-            height: 36px;
-            border-radius: 10px;
+            width: 48px;
+            height: 48px;
             display: flex;
             align-items: center;
             justify-content: center;
             flex-shrink: 0;
-            border: 1px solid rgba(99, 102, 241, 0.2);
+            border: 1px solid var(--primary);
+            font-size: 1.5rem;
+            clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
         }
 
         .feature-content h3 {
-            font-size: 1rem;
+            font-family: var(--font-display);
+            font-size: 1.2rem;
             color: var(--text-main);
-            margin-bottom: 0.25rem;
-            font-weight: 600;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            letter-spacing: 1px;
         }
 
         .feature-content p {
+            font-family: var(--font-body);
             color: var(--text-muted);
-            font-size: 0.9rem;
+            font-size: 1rem;
             line-height: 1.5;
         }
     </style>
 </head>
 
 <body>
-    <div class="bg-canvas">
-        <div class="orb orb-1"></div>
-        <div class="orb orb-2"></div>
-        <div class="orb orb-3"></div>
-    </div>
+    <!-- Background Elements -->
+    <div class="bg-canvas"></div>
+    <div class="scanlines"></div>
 
     <div class="container">
-        <div class="glass-card">
+        <div class="mech-card">
+            <!-- HUD DECO -->
+            <div class="hud-deco deco-top">MODULES // LIST</div>
+            <div class="hud-deco deco-bot">SYS.DIAGNOSTIC // OK</div>
+
             <header style="text-align: center; margin-bottom: 2rem;">
-                <h1>Capabilities</h1>
-                <p class="subtitle">System modules and features</p>
+                <h1>System Modules</h1>
+                <p class="subtitle">Operational Capabilities</p>
             </header>
 
             <ul class="features-list">
                 <li>
                     <div class="icon-box">📸</div>
                     <div class="feature-content">
-                        <h3>Instagram Automation</h3>
-                        <p>Seamlessly interface with Instagram. Trigger actions, view status, and manage media
-                            interactions.</p>
+                        <h3>IG_AUTOMATION_PROTOCOL</h3>
+                        <p>Interface seamlessly with Instagram networks. Trigger remote actions, monitor status streams,
+                            and manage media IO.</p>
                     </div>
                 </li>
                 <li>
                     <div class="icon-box">💬</div>
                     <div class="feature-content">
-                        <h3>Smart Direct Messaging</h3>
-                        <p>Target specific users with automated messaging protocols. High delivery reliability.</p>
+                        <h3>DIRECT_MSG_LINK</h3>
+                        <p>Target specific identity nodes with automated messaging protocols. High delivery reliability
+                            matrix.</p>
                     </div>
                 </li>
                 <li>
                     <div class="icon-box">🎞️</div>
                     <div class="feature-content">
-                        <h3>Content Discovery</h3>
-                        <p>Browse reels by category and tag. Auto-curation of relevant content streams.</p>
+                        <h3>MEDIA_CURATION_BOT</h3>
+                        <p>Scan reel datastreams by category and tag. Auto-curation of high-priority content feeds.</p>
                     </div>
                 </li>
                 <li>
                     <div class="icon-box">🛡️</div>
                     <div class="feature-content">
-                        <h3>Secure Access</h3>
-                        <p>Encrypted operator credentials ensuring strictly authorized command execution.</p>
+                        <h3>CRYPTO_ACCESS</h3>
+                        <p>Encrypted operator credentials ensuring strictly authorized command execution within the
+                            mainframe.</p>
                     </div>
                 </li>
             </ul>
 
             <div style="text-align: center; margin-top: 2rem;">
                 <a href="/login.html" class="btn btn-secondary"
-                    style="display: inline-block; width: auto; text-decoration: none;">
-                    ← Return to Authentication
-                </a>
+                    style="display: inline-block; width: 100%; text-decoration: none;">
+                    [ < ACCESS TERMINAL ] </a>
             </div>
         </div>
     </div>

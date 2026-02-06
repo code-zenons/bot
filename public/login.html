@@ -4,25 +4,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Bot Command Center</title>
+    <title>ACCESS TERMINAL // LOGIN</title>
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;400;500;600;700&family=Orbitron:wght@400;500;700&family=Share+Tech+Mono&display=swap"
+        rel="stylesheet">
 </head>
 
 <body>
-    <div class="bg-canvas">
-        <div class="orb orb-1"></div>
-        <div class="orb orb-2"></div>
-        <div class="orb orb-3"></div>
-    </div>
+    <!-- Background Elements -->
+    <div class="bg-canvas"></div>
+    <div class="scanlines"></div>
 
     <div class="container">
-        <div class="glass-card">
+        <div class="mech-card">
+            <!-- HUD DECO -->
+            <div class="hud-deco deco-top">SYS.VER.3.0_ALPHA // SECURE_LINK</div>
+            <div class="hud-deco deco-bot">AUTH_REQUIRED // AWAITING_INPUT</div>
+
             <header style="text-align: center; margin-bottom: 2.5rem;">
-                <h1>Welcome Back</h1>
-                <p class="subtitle">Authenticate to access the system</p>
+                <h1>Operator Login</h1>
+                <p class="subtitle">Identify for System Access</p>
             </header>
 
             <form id="loginForm">
@@ -30,36 +34,37 @@
                     <label for="username">Operator ID</label>
                     <div class="input-wrapper">
                         <input type="text" id="username" name="username" required autocomplete="username"
-                            placeholder="Enter your username">
+                            placeholder="> ENTER ID">
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label for="password">Passcode</label>
+                    <label for="password">Security Code</label>
                     <div class="input-wrapper">
                         <input type="password" id="password" name="password" required autocomplete="current-password"
-                            placeholder="Enter your password">
+                            placeholder="> ENTER PASSCODE">
                         <button type="button" class="btn-secondary" onclick="togglePassword('password', this)"
-                            style="position: absolute; right: 5px; top: 5px; height: calc(100% - 10px); width: auto; padding: 0 10px; border: none; background: transparent;">👁️</button>
+                            style="position: absolute; right: 0; top: 0; height: 100%; width: 40px; border: none; border-left: 1px solid var(--text-muted); background: rgba(0,0,0,0.3);">👁️</button>
                     </div>
                 </div>
 
                 <button type="submit" id="submitBtn" class="btn mt-4">
-                    <span>Initiate Session</span>
-                    <span style="font-size: 1.2em;">➔</span>
+                    <span>Initiate Link_Start</span>
                 </button>
             </form>
 
             <div id="status"></div>
 
-            <div style="text-align: center; margin-top: 2rem;">
-                <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 0.5rem;">New Operator?</p>
-                <a href="/signup.html" class="text-link">Create Access Profile</a>
+            <div
+                style="text-align: center; margin-top: 2rem; border-top: 1px dashed var(--text-muted); padding-top: 1rem;">
+                <p
+                    style="color: var(--text-muted); font-size: 0.8rem; margin-bottom: 0.5rem; font-family: var(--font-mono);">
+                    NO EXISTING PROFILE?</p>
+                <a href="/signup.html" class="text-link">[ REGISTER NEW OPERATOR ]</a>
             </div>
 
             <div style="text-align: center; margin-top: 1rem;">
-                <a href="/features.html" class="text-link" style="font-size: 0.85rem; opacity: 0.8;">Explore
-                    Capabilities</a>
+                <a href="/features.html" class="text-link" style="opacity: 0.7;">[ SYSTEM CAPABILITIES ]</a>
             </div>
         </div>
     </div>
@@ -85,7 +90,7 @@
 
             const btnOriginalContent = submitBtn.innerHTML;
             submitBtn.disabled = true;
-            submitBtn.innerHTML = '<div class="spinner"></div> Authenticating...';
+            submitBtn.innerHTML = '<div class="spinner"></div> AUTHENTICATING...';
             statusDiv.style.display = 'none';
 
             const formData = {
@@ -105,10 +110,10 @@
                 if (response.ok) {
                     window.location.href = '/';
                 } else {
-                    showStatus(result.error || 'Access Denied', 'error');
+                    showStatus('ACCESS DENIED: ' + (result.error || 'INVALID CREDENTIALS'), 'error');
                 }
             } catch (error) {
-                showStatus('Network anomaly detected', 'error');
+                showStatus('NETWORK ERROR // CONNECTION SEVERED', 'error');
             } finally {
                 submitBtn.disabled = false;
                 submitBtn.innerHTML = btnOriginalContent;
