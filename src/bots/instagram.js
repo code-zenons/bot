@@ -8,6 +8,24 @@ class InstagramBot extends BaseBot {
   /**
    * Open the Instagram Application (or Safari if App is not preferred)
    */
+  async runScriptWithCheck(script, actionName) {
+    try {
+      const result = await this.runAppleScript(script);
+      if (!result || !result.success) {
+        const errorMsg = result ? result.error : 'Unknown error';
+        this.log(`Error during ${actionName}: ${errorMsg}`);
+        return { success: false, message: `Failed to ${actionName}. Error: ${errorMsg}` };
+      }
+      return { success: true, message: `${actionName} successful.` };
+    } catch (e) {
+      this.log(`Exception during ${actionName}: ${e.message}`);
+      return { success: false, message: `Critical error during ${actionName}: ${e.message}` };
+    }
+  }
+
+  /**
+   * Open the Instagram Application (or Safari if App is not preferred)
+   */
   async openInstagram() {
     const script = `
       tell application "Safari"
@@ -16,24 +34,27 @@ class InstagramBot extends BaseBot {
       end tell
     `;
     this.log('Opening Instagram in Safari...');
-    return await this.runAppleScript(script);
+    return await this.runScriptWithCheck(script, 'Open Instagram');
   }
 
   /**
    * Send a Direct Message
    */
   async sendMessage(username, message) {
+    if (!username || !message) {
+      return { success: false, message: "Username and message are required." };
+    }
+
     this.log(`Sending message to ${username}: ${message}`);
 
     // Using ig.me shortlink which redirects to the correct direct thread
-    // Note: The 'message' part cannot be pre-filled via URL on Instagram Web easily
     const script = `
       tell application "Safari"
         activate
         open location "https://ig.me/m/" & "${username}"
       end tell
     `;
-    return await this.runAppleScript(script);
+    return await this.runScriptWithCheck(script, `Send DM to ${username}`);
   }
 
   /**
@@ -50,7 +71,7 @@ class InstagramBot extends BaseBot {
         open location "https://www.instagram.com/explore/tags/" & "${tag}"
       end tell
     `;
-    return await this.runAppleScript(script);
+    return await this.runScriptWithCheck(script, `Open Reels for ${tag}`);
   }
 
   /**
@@ -63,20 +84,20 @@ class InstagramBot extends BaseBot {
 
     switch (action) {
       case '/open':
-        await this.openInstagram();
-        return "Instagram opened.";
+        const header = await this.openInstagram();
+        return header.message;
 
       case '/dm':
         if (args.length < 2) return "Usage: /dm <username> <message>";
         const user = args[0];
         const msg = args.slice(1).join(' ');
-        await this.sendMessage(user, msg);
-        return `Opened DM for ${user}.`;
+        const dmResult = await this.sendMessage(user, msg);
+        return dmResult.message;
 
       case '/reel':
         const category = args[0] || 'trending';
-        await this.sendReel(category);
-        return `Opened Reels for category: ${category}`;
+        const reelResult = await this.sendReel(category);
+        return reelResult.message;
 
       case '/help':
         return `
