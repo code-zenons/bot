@@ -24,7 +24,7 @@
             <div class="hud-deco deco-top">SYS.VER.3.0_ALPHA // SECURE_LINK</div>
             <div class="hud-deco deco-bot">AUTH_REQUIRED // AWAITING_INPUT</div>
 
-            <header style="text-align: center; margin-bottom: 2.5rem;">
+            <header class="login-header">
                 <h1>Operator Login</h1>
                 <p class="subtitle">Identify for System Access</p>
             </header>
@@ -43,8 +43,8 @@
                     <div class="input-wrapper">
                         <input type="password" id="password" name="password" required autocomplete="current-password"
                             placeholder="> ENTER PASSCODE">
-                        <button type="button" class="btn-secondary" onclick="togglePassword('password', this)"
-                            style="position: absolute; right: 0; top: 0; height: 100%; width: 40px; border: none; border-left: 1px solid var(--text-muted); background: rgba(0,0,0,0.3);">👁️</button>
+                        <button type="button" class="password-toggle-btn"
+                            onclick="togglePassword('password', this)">👁️</button>
                     </div>
                 </div>
 
@@ -55,16 +55,14 @@
 
             <div id="status"></div>
 
-            <div
-                style="text-align: center; margin-top: 2rem; border-top: 1px dashed var(--text-muted); padding-top: 1rem;">
-                <p
-                    style="color: var(--text-muted); font-size: 0.8rem; margin-bottom: 0.5rem; font-family: var(--font-mono);">
+            <div class="register-section">
+                <p class="register-text">
                     NO EXISTING PROFILE?</p>
                 <a href="/signup.html" class="text-link">[ REGISTER NEW OPERATOR ]</a>
             </div>
 
-            <div style="text-align: center; margin-top: 1rem;">
-                <a href="/features.html" class="text-link" style="opacity: 0.7;">[ SYSTEM CAPABILITIES ]</a>
+            <div class="capabilities-section">
+                <a href="/features.html" class="text-link capabilities-link">[ SYSTEM CAPABILITIES ]</a>
             </div>
         </div>
     </div>
